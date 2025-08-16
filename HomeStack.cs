@@ -7,7 +7,7 @@ using Pulumi.Docker.Inputs;
 class ContainerConfig
 {
     public string Name { get; set; } = null!;
-    public string Image { get; set; } = null!;
+    public RemoteImage Image { get; set; } = null!;
     public string[]? Envs { get; set; }
     public string? NetworkMode { get; set; }
     public string Restart { get; set; } = "unless-stopped";
@@ -32,7 +32,10 @@ class HomeStack : Stack
             new ContainerConfig
             {
                 Name = "nodered",
-                Image = $"nodered/node-red:{config.Get("nodeRedImageTag") ?? "latest"}",
+                Image = new RemoteImage("node-red", new RemoteImageArgs
+                {
+                    Name=$"nodered/node-red:{config.Get("nodeRedImageTag") ?? "latest"}"
+                }),
                 Envs = new[] { "TZ=America/Chicago" },
                 NetworkMode = "host",
                 Mounts = new List<ContainerMountArgs>
@@ -52,13 +55,14 @@ class HomeStack : Stack
         {
             var container = new Container(cfg.Name, new ContainerArgs
             {
-                Name        = cfg.Name,
-                Image       = cfg.Image,
-                Restart     = cfg.Restart,
+                Name = cfg.Name,
+                Image = cfg.Image.ImageId,
+
+                Restart = cfg.Restart,
                 NetworkMode = cfg.NetworkMode!,
-                Envs        = cfg.Envs!,
-                Mounts      = cfg.Mounts!,
-                Init        = true
+                Envs = cfg.Envs!,
+                Mounts = cfg.Mounts!,
+                Init = true
             }, new CustomResourceOptions
             {
                 Provider = cfg.Provider
