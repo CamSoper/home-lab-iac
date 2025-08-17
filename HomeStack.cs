@@ -46,6 +46,30 @@ class HomeStack : Stack
                     }
                 },
                 Provider = server
+            },
+            new ContainerConfig
+            {
+                Name = "esphome",
+                Image = $"esphome/esphome:{config.Get("esphomeImageTag") ?? "latest"}",
+                NetworkMode = "host",
+                Restart = "always",
+                Mounts = new List<ContainerMountArgs>
+                {
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = $"{basePath}/esphome/config",
+                        Target = "/config"
+                    },
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = "/etc/localtime",
+                        Target = "/etc/localtime",
+                        ReadOnly = true
+                    }
+                },
+                Provider = server
             }
         };
 
@@ -61,8 +85,8 @@ class HomeStack : Stack
                 Name = cfg.Name,
                 Image = cfg.Image,
                 Restart = cfg.Restart,
-                NetworkMode = cfg.NetworkMode!,
-                Envs = cfg.Envs!,
+                NetworkMode = cfg.NetworkMode ?? string.Empty,
+                Envs = cfg.Envs ?? Array.Empty<string>(),
                 Mounts = cfg.Mounts!,
                 Init = true
             }, new CustomResourceOptions

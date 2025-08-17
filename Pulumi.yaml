@@ -8,6 +8,8 @@ config:
     value: ssh://camsoper@server
   nodeRedImageTag:
     value: latest-22
+  esphomeImageTag:
+    value: 2025.7
   pulumi:tags:
     value:
       pulumi:template: csharp
