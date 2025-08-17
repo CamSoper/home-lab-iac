@@ -16,6 +16,9 @@ class ContainerConfig
     public string? NetworkMode { get; set; }
     public string Restart { get; set; } = "unless-stopped";
     public List<ContainerMountArgs>? Mounts { get; set; }
+    public InputList<ContainerPortArgs>? Ports { get; set; }
+    public bool Privileged { get; set; } = false;
+    public bool Init { get; set; } = false;
     public Provider Provider = null!;
 }
 
@@ -35,23 +38,26 @@ class HomeStack : Stack
         {
             new ContainerConfig
             {
-            Name = "nodered",
-            Image = "nodered/node-red:" + (config.Get("nodeRedImageTag") ?? "latest"),
-            Envs = Output.Create(new[] { "TZ=America/Chicago" }),
-            NetworkMode = "host",
-            Mounts = new List<ContainerMountArgs>
-            {
-                new ContainerMountArgs
+                // Node Red
+                Name = "nodered",
+                Image = "nodered/node-red:" + (config.Get("nodeRedImageTag") ?? "latest"),
+                Envs = Output.Create(new[] { "TZ=America/Chicago" }),
+                NetworkMode = "host",
+                Mounts = new List<ContainerMountArgs>
                 {
-                Type   = "bind",
-                Source = basePath + "/nodered/data",
-                Target = "/data"
-                }
-            },
-            Provider = server
+                    new ContainerMountArgs
+                    {
+                    Type   = "bind",
+                    Source = basePath + "/nodered/data",
+                    Target = "/data"
+                    }
+                },
+                Init = true,
+                Provider = server
             },
             new ContainerConfig
             {
+                // ESPHome
                 Name = "esphome",
                 Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest"),
                 NetworkMode = "host",
@@ -60,27 +66,67 @@ class HomeStack : Stack
                 {
                     new ContainerMountArgs
                     {
-                    Type = "bind",
-                    Source = basePath + "/esphome/config",
-                    Target = "/config"
+                        Type = "bind",
+                        Source = basePath + "/esphome/config",
+                        Target = "/config"
                     },
                     new ContainerMountArgs
                     {
-                    Type = "bind",
-                    Source = "/etc/localtime",
-                    Target = "/etc/localtime",
-                    ReadOnly = true
+                        Type = "bind",
+                        Source = "/etc/localtime",
+                        Target = "/etc/localtime",
+                        ReadOnly = true
                     }
                 },
+                Init = true,
                 Provider = server
             },
             new ContainerConfig
             {
+                // govee2mqtt
                 Name = "govee2mqtt",
-                Image = "ghcr.io/wez/govee2mqtt:latest",
+                Image = "ghcr.io/wez/govee2mqtt:" + (config.Get("govee2mqttImageTag") ?? "latest"),
                 Envs = goveeEnvs(config),
                 NetworkMode = "host",
                 Restart = "always",
+                Init = true,
+                Provider = server
+            },
+            new ContainerConfig
+            {
+                Name = "homeassistant",
+                Image = "homeassistant/home-assistant:" + (config.Get("homeAssistantImageTag") ?? "latest"),
+                Mounts = new List<ContainerMountArgs>
+                {
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = basePath + "/hass/config",
+                        Target = "/config"
+                    },
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = "/etc/localtime",
+                        Target = "/etc/localtime",
+                        ReadOnly = true
+                    },
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = "/var/run/docker.sock",
+                        Target = "/var/run/docker.sock"
+                    },
+                    new ContainerMountArgs
+                    {
+                        Type = "bind",
+                        Source = basePath + "/hass/media/snapshots",
+                        Target = "/media/snapshots"
+                    }
+                },
+                NetworkMode = "host",
+                Restart = "unless-stopped",
+                Privileged = true,
                 Provider = server
             }
 
@@ -101,7 +147,9 @@ class HomeStack : Stack
                 NetworkMode = cfg.NetworkMode ?? string.Empty,
                 Envs = cfg.Envs ?? Output.Create(new string[0]),
                 Mounts = cfg.Mounts ?? new List<ContainerMountArgs>(),
-                Init = true
+                Ports = cfg.Ports ?? new InputList<ContainerPortArgs>(),
+                Init = cfg.Init,
+                Privileged = cfg.Privileged
             }, new CustomResourceOptions
             {
                 Provider = cfg.Provider
