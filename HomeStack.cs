@@ -1,4 +1,5 @@
 // Program.cs
+using System;
 using System.Collections.Generic;
 using Pulumi;
 using Pulumi.Docker;
@@ -7,7 +8,7 @@ using Pulumi.Docker.Inputs;
 class ContainerConfig
 {
     public string Name { get; set; } = null!;
-    public RemoteImage Image { get; set; } = null!;
+    public string Image { get; set; } = null!;
     public string[]? Envs { get; set; }
     public string? NetworkMode { get; set; }
     public string Restart { get; set; } = "unless-stopped";
@@ -32,10 +33,7 @@ class HomeStack : Stack
             new ContainerConfig
             {
                 Name = "nodered",
-                Image = new RemoteImage("node-red", new RemoteImageArgs
-                {
-                    Name=$"nodered/node-red:{config.Get("nodeRedImageTag") ?? "latest"}"
-                }),
+                Image = $"nodered/node-red:{config.Get("nodeRedImageTag") ?? "latest-22"}",
                 Envs = new[] { "TZ=America/Chicago" },
                 NetworkMode = "host",
                 Mounts = new List<ContainerMountArgs>
@@ -53,11 +51,15 @@ class HomeStack : Stack
 
         foreach (var cfg in containers)
         {
+            var image = new RemoteImage(cfg.Name, new()
+            {
+                Name = cfg.Image,
+            });
+
             var container = new Container(cfg.Name, new ContainerArgs
             {
                 Name = cfg.Name,
-                Image = cfg.Image.ImageId,
-
+                Image = cfg.Image,
                 Restart = cfg.Restart,
                 NetworkMode = cfg.NetworkMode!,
                 Envs = cfg.Envs!,
