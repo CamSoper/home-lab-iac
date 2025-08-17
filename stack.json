@@ -1,0 +1,490 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2025-08-17T00:44:48.1946986-05:00",
+            "magic": "12f16485067e417d28666248039cc5d9176b7e24c4e20455e71f58c0be1b7a0c",
+            "version": "v3.190.0"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "CamSoper-org",
+                "project": "home-lab-iac",
+                "stack": "home-lab"
+            }
+        },
+        "metadata": {},
+        "resources": [
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack",
+                "created": "2025-08-17T05:44:29.6039402Z",
+                "modified": "2025-08-17T05:44:29.6039402Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::server",
+                "custom": true,
+                "id": "6f250443-6484-493c-8836-1d0b2244abbf",
+                "type": "pulumi:providers:docker",
+                "inputs": {
+                    "__internal": {},
+                    "host": "ssh://camsoper@server",
+                    "version": "4.8.0"
+                },
+                "outputs": {
+                    "host": "ssh://camsoper@server",
+                    "version": "4.8.0"
+                },
+                "parent": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "propertyDependencies": {
+                    "host": []
+                },
+                "created": "2025-08-17T05:44:30.0366822Z",
+                "modified": "2025-08-17T05:44:30.0366822Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::default_4_8_0",
+                "custom": true,
+                "id": "d1a7f5e8-1558-4b29-af85-61f09debef84",
+                "type": "pulumi:providers:docker",
+                "inputs": {
+                    "__internal": {},
+                    "version": "4.8.0"
+                },
+                "outputs": {
+                    "version": "4.8.0"
+                },
+                "created": "2025-08-17T05:44:30.3017824Z",
+                "modified": "2025-08-17T05:44:30.3017824Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::docker:index/container:Container::esphome",
+                "custom": true,
+                "id": "692fae196dd04d68255900fbb2b707f059d537a8f2f7ed14a3caebe3c33d0281",
+                "type": "docker:index/container:Container",
+                "inputs": {
+                    "__defaults": [
+                        "attach",
+                        "containerReadRefreshTimeoutMilliseconds",
+                        "logs",
+                        "mustRun",
+                        "readOnly",
+                        "removeVolumes",
+                        "rm",
+                        "start",
+                        "stdinOpen",
+                        "tty",
+                        "wait",
+                        "waitTimeout"
+                    ],
+                    "attach": false,
+                    "containerReadRefreshTimeoutMilliseconds": 15000,
+                    "envs": [],
+                    "image": "esphome/esphome:2025.7",
+                    "init": true,
+                    "logs": false,
+                    "mounts": [
+                        {
+                            "__defaults": [],
+                            "source": "/mnt/raid/Docker/esphome/config",
+                            "target": "/config",
+                            "type": "bind"
+                        },
+                        {
+                            "__defaults": [],
+                            "readOnly": true,
+                            "source": "/etc/localtime",
+                            "target": "/etc/localtime",
+                            "type": "bind"
+                        }
+                    ],
+                    "mustRun": true,
+                    "name": "esphome",
+                    "networkMode": "host",
+                    "readOnly": false,
+                    "removeVolumes": true,
+                    "restart": "always",
+                    "rm": false,
+                    "start": true,
+                    "stdinOpen": false,
+                    "tty": false,
+                    "wait": false,
+                    "waitTimeout": 60
+                },
+                "outputs": {
+                    "__meta": "{\"schema_version\":\"2\"}",
+                    "attach": false,
+                    "bridge": "",
+                    "capabilities": null,
+                    "cgroupParent": null,
+                    "cgroupnsMode": null,
+                    "command": [
+                        "dashboard",
+                        "/config"
+                    ],
+                    "containerLogs": null,
+                    "containerReadRefreshTimeoutMilliseconds": 15000,
+                    "cpuPeriod": null,
+                    "cpuQuota": null,
+                    "cpuSet": "",
+                    "cpuShares": 0,
+                    "cpus": null,
+                    "destroyGraceSeconds": null,
+                    "devices": [],
+                    "dns": null,
+                    "dnsOpts": null,
+                    "dnsSearches": null,
+                    "domainname": "",
+                    "entrypoints": [
+                        "/entrypoint.sh"
+                    ],
+                    "envs": [],
+                    "exitCode": null,
+                    "gpus": null,
+                    "groupAdds": null,
+                    "healthcheck": {
+                        "interval": "30s",
+                        "retries": 0,
+                        "startInterval": "0s",
+                        "startPeriod": "0s",
+                        "tests": [
+                            "CMD-SHELL",
+                            "curl --fail http://localhost:6052/version -A \"HealthCheck\" || exit 1"
+                        ],
+                        "timeout": "30s"
+                    },
+                    "hostname": "server",
+                    "hosts": [],
+                    "id": "692fae196dd04d68255900fbb2b707f059d537a8f2f7ed14a3caebe3c33d0281",
+                    "image": "esphome/esphome:2025.7",
+                    "init": true,
+                    "ipcMode": "private",
+                    "labels": [],
+                    "logDriver": "json-file",
+                    "logOpts": null,
+                    "logs": false,
+                    "maxRetryCount": 0,
+                    "memory": 0,
+                    "memorySwap": 0,
+                    "mounts": [
+                        {
+                            "bindOptions": null,
+                            "readOnly": true,
+                            "source": "/etc/localtime",
+                            "target": "/etc/localtime",
+                            "tmpfsOptions": null,
+                            "type": "bind",
+                            "volumeOptions": null
+                        },
+                        {
+                            "bindOptions": null,
+                            "readOnly": null,
+                            "source": "/mnt/raid/Docker/esphome/config",
+                            "target": "/config",
+                            "tmpfsOptions": null,
+                            "type": "bind",
+                            "volumeOptions": null
+                        }
+                    ],
+                    "mustRun": true,
+                    "name": "esphome",
+                    "networkDatas": [
+                        {
+                            "gateway": "",
+                            "globalIpv6Address": "",
+                            "globalIpv6PrefixLength": 0,
+                            "ipAddress": "",
+                            "ipPrefixLength": 0,
+                            "ipv6Gateway": "",
+                            "macAddress": "",
+                            "networkName": "host"
+                        }
+                    ],
+                    "networkMode": "host",
+                    "networksAdvanced": [],
+                    "pidMode": "",
+                    "ports": [],
+                    "privileged": false,
+                    "publishAllPorts": false,
+                    "readOnly": false,
+                    "removeVolumes": true,
+                    "restart": "always",
+                    "rm": false,
+                    "runtime": "runc",
+                    "securityOpts": [],
+                    "shmSize": 64,
+                    "start": true,
+                    "stdinOpen": false,
+                    "stopSignal": "",
+                    "stopTimeout": 0,
+                    "storageOpts": null,
+                    "sysctls": null,
+                    "tmpfs": null,
+                    "tty": false,
+                    "ulimits": [],
+                    "uploads": [],
+                    "user": "",
+                    "usernsMode": "",
+                    "volumes": [],
+                    "wait": false,
+                    "waitTimeout": 60,
+                    "workingDir": "/config"
+                },
+                "parent": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "provider": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::server::6f250443-6484-493c-8836-1d0b2244abbf",
+                "propertyDependencies": {
+                    "envs": [],
+                    "image": [],
+                    "init": [],
+                    "mounts": [],
+                    "name": [],
+                    "networkMode": [],
+                    "restart": []
+                },
+                "created": "2025-08-17T05:44:35.5249446Z",
+                "modified": "2025-08-17T05:44:35.5249446Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::docker:index/container:Container::nodered",
+                "custom": true,
+                "id": "5d66f89e6f684fa6a1188fdcdbdfacdf6f68849f0db383338841cb268d083518",
+                "type": "docker:index/container:Container",
+                "inputs": {
+                    "__defaults": [
+                        "attach",
+                        "containerReadRefreshTimeoutMilliseconds",
+                        "logs",
+                        "mustRun",
+                        "readOnly",
+                        "removeVolumes",
+                        "rm",
+                        "start",
+                        "stdinOpen",
+                        "tty",
+                        "wait",
+                        "waitTimeout"
+                    ],
+                    "attach": false,
+                    "containerReadRefreshTimeoutMilliseconds": 15000,
+                    "envs": [
+                        "TZ=America/Chicago"
+                    ],
+                    "image": "nodered/node-red:4.1.0",
+                    "init": true,
+                    "logs": false,
+                    "mounts": [
+                        {
+                            "__defaults": [],
+                            "source": "/mnt/raid/Docker/nodered/data",
+                            "target": "/data",
+                            "type": "bind"
+                        }
+                    ],
+                    "mustRun": true,
+                    "name": "nodered",
+                    "networkMode": "host",
+                    "readOnly": false,
+                    "removeVolumes": true,
+                    "restart": "unless-stopped",
+                    "rm": false,
+                    "start": true,
+                    "stdinOpen": false,
+                    "tty": false,
+                    "wait": false,
+                    "waitTimeout": 60
+                },
+                "outputs": {
+                    "__meta": "{\"schema_version\":\"2\"}",
+                    "attach": false,
+                    "bridge": "",
+                    "capabilities": null,
+                    "cgroupParent": null,
+                    "cgroupnsMode": null,
+                    "command": [],
+                    "containerLogs": null,
+                    "containerReadRefreshTimeoutMilliseconds": 15000,
+                    "cpuPeriod": null,
+                    "cpuQuota": null,
+                    "cpuSet": "",
+                    "cpuShares": 0,
+                    "cpus": null,
+                    "destroyGraceSeconds": null,
+                    "devices": [],
+                    "dns": null,
+                    "dnsOpts": null,
+                    "dnsSearches": null,
+                    "domainname": "",
+                    "entrypoints": [
+                        "./entrypoint.sh"
+                    ],
+                    "envs": [
+                        "TZ=America/Chicago"
+                    ],
+                    "exitCode": null,
+                    "gpus": null,
+                    "groupAdds": null,
+                    "healthcheck": {
+                        "interval": "0s",
+                        "retries": 0,
+                        "startInterval": "0s",
+                        "startPeriod": "0s",
+                        "tests": [
+                            "CMD-SHELL",
+                            "node /healthcheck.js"
+                        ],
+                        "timeout": "0s"
+                    },
+                    "hostname": "server",
+                    "hosts": [],
+                    "id": "5d66f89e6f684fa6a1188fdcdbdfacdf6f68849f0db383338841cb268d083518",
+                    "image": "nodered/node-red:4.1.0",
+                    "init": true,
+                    "ipcMode": "private",
+                    "labels": [],
+                    "logDriver": "json-file",
+                    "logOpts": null,
+                    "logs": false,
+                    "maxRetryCount": 0,
+                    "memory": 0,
+                    "memorySwap": 0,
+                    "mounts": [
+                        {
+                            "bindOptions": null,
+                            "readOnly": null,
+                            "source": "/mnt/raid/Docker/nodered/data",
+                            "target": "/data",
+                            "tmpfsOptions": null,
+                            "type": "bind",
+                            "volumeOptions": null
+                        }
+                    ],
+                    "mustRun": true,
+                    "name": "nodered",
+                    "networkDatas": [
+                        {
+                            "gateway": "",
+                            "globalIpv6Address": "",
+                            "globalIpv6PrefixLength": 0,
+                            "ipAddress": "",
+                            "ipPrefixLength": 0,
+                            "ipv6Gateway": "",
+                            "macAddress": "",
+                            "networkName": "host"
+                        }
+                    ],
+                    "networkMode": "host",
+                    "networksAdvanced": [],
+                    "pidMode": "",
+                    "ports": [],
+                    "privileged": false,
+                    "publishAllPorts": false,
+                    "readOnly": false,
+                    "removeVolumes": true,
+                    "restart": "unless-stopped",
+                    "rm": false,
+                    "runtime": "runc",
+                    "securityOpts": [],
+                    "shmSize": 64,
+                    "start": true,
+                    "stdinOpen": false,
+                    "stopSignal": "",
+                    "stopTimeout": 0,
+                    "storageOpts": null,
+                    "sysctls": null,
+                    "tmpfs": null,
+                    "tty": false,
+                    "ulimits": [],
+                    "uploads": [],
+                    "user": "node-red",
+                    "usernsMode": "",
+                    "volumes": [],
+                    "wait": false,
+                    "waitTimeout": 60,
+                    "workingDir": "/usr/src/node-red"
+                },
+                "parent": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "provider": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::server::6f250443-6484-493c-8836-1d0b2244abbf",
+                "propertyDependencies": {
+                    "envs": [],
+                    "image": [],
+                    "init": [],
+                    "mounts": [],
+                    "name": [],
+                    "networkMode": [],
+                    "restart": []
+                },
+                "created": "2025-08-17T05:44:35.7084887Z",
+                "modified": "2025-08-17T05:44:35.7084887Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::docker:index/remoteImage:RemoteImage::esphome",
+                "custom": true,
+                "id": "sha256:a18864be056c4d3b5a5e388252ee29cff8a09fbb13adc740cea941657f0fe7b3esphome/esphome:2025.7",
+                "type": "docker:index/remoteImage:RemoteImage",
+                "inputs": {
+                    "__defaults": [
+                        "platform"
+                    ],
+                    "name": "esphome/esphome:2025.7",
+                    "platform": ""
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1200000000000,\"delete\":1200000000000,\"update\":1200000000000}}",
+                    "build": null,
+                    "forceRemove": null,
+                    "id": "sha256:a18864be056c4d3b5a5e388252ee29cff8a09fbb13adc740cea941657f0fe7b3esphome/esphome:2025.7",
+                    "imageId": "sha256:a18864be056c4d3b5a5e388252ee29cff8a09fbb13adc740cea941657f0fe7b3",
+                    "keepLocally": null,
+                    "name": "esphome/esphome:2025.7",
+                    "platform": "",
+                    "pullTriggers": null,
+                    "repoDigest": "esphome/esphome@sha256:a18864be056c4d3b5a5e388252ee29cff8a09fbb13adc740cea941657f0fe7b3",
+                    "triggers": null
+                },
+                "parent": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "provider": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::default_4_8_0::d1a7f5e8-1558-4b29-af85-61f09debef84",
+                "propertyDependencies": {
+                    "name": []
+                },
+                "created": "2025-08-17T05:44:47.1565625Z",
+                "modified": "2025-08-17T05:44:47.1565625Z"
+            },
+            {
+                "urn": "urn:pulumi:home-lab::home-lab-iac::docker:index/remoteImage:RemoteImage::nodered",
+                "custom": true,
+                "id": "sha256:da6ac47cce14ed8df7ceddc8a15c8f4c0a41e0836c4d6e68e7a6a82329305a6bnodered/node-red:4.1.0",
+                "type": "docker:index/remoteImage:RemoteImage",
+                "inputs": {
+                    "__defaults": [
+                        "platform"
+                    ],
+                    "name": "nodered/node-red:4.1.0",
+                    "platform": ""
+                },
+                "outputs": {
+                    "__meta": "{\"e2bfb730-ecaa-11e6-8f88-34363bc7c4c0\":{\"create\":1200000000000,\"delete\":1200000000000,\"update\":1200000000000}}",
+                    "build": null,
+                    "forceRemove": null,
+                    "id": "sha256:da6ac47cce14ed8df7ceddc8a15c8f4c0a41e0836c4d6e68e7a6a82329305a6bnodered/node-red:4.1.0",
+                    "imageId": "sha256:da6ac47cce14ed8df7ceddc8a15c8f4c0a41e0836c4d6e68e7a6a82329305a6b",
+                    "keepLocally": null,
+                    "name": "nodered/node-red:4.1.0",
+                    "platform": "",
+                    "pullTriggers": null,
+                    "repoDigest": "nodered/node-red@sha256:da6ac47cce14ed8df7ceddc8a15c8f4c0a41e0836c4d6e68e7a6a82329305a6b",
+                    "triggers": null
+                },
+                "parent": "urn:pulumi:home-lab::home-lab-iac::pulumi:pulumi:Stack::home-lab-iac-home-lab",
+                "provider": "urn:pulumi:home-lab::home-lab-iac::pulumi:providers:docker::default_4_8_0::d1a7f5e8-1558-4b29-af85-61f09debef84",
+                "propertyDependencies": {
+                    "name": []
+                },
+                "created": "2025-08-17T05:44:47.9433625Z",
+                "modified": "2025-08-17T05:44:47.9433625Z"
+            }
+        ]
+    }
+}

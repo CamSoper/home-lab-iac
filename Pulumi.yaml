@@ -2,14 +2,6 @@ name: home-lab-iac
 description: Home lab IaC
 runtime: dotnet
 config:
-  baseVolumePath:
-    value: /mnt/raid/Docker
-  serverHost:
-    value: ssh://camsoper@server
-  nodeRedImageTag:
-    value: latest-22
-  esphomeImageTag:
-    value: 2025.7
   pulumi:tags:
     value:
       pulumi:template: csharp
