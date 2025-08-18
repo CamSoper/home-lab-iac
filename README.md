@@ -168,10 +168,6 @@ This project uses Pulumi's secret management to handle sensitive information suc
 
 Always use `config.RequireSecret()` or `config.GetSecret()` for sensitive values, and ensure you set these values using `pulumi config set --secret`.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
