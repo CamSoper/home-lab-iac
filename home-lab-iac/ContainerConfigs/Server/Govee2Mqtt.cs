@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Pulumi;
 using Pulumi.Docker;
-using Pulumi.Docker.Inputs;
 
 namespace home_lab_iac.ContainerConfigs;
 
 public class Govee2Mqtt : ContainerConfigBase
 {
-    public Govee2Mqtt(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
+    public Govee2Mqtt(string name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "ghcr.io/wez/govee2mqtt:" + (config.Get("govee2mqttImageTag") ?? "latest");
         ContainerArgs.Envs = goveeEnvs(config);

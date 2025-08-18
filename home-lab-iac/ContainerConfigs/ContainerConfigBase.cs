@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using Pulumi;
 using Pulumi.Docker;
-using Pulumi.Docker.Inputs;
 
 namespace home_lab_iac.ContainerConfigs;
 
 public abstract class ContainerConfigBase
 {
-    public ContainerConfigBase(String name, Pulumi.Config config, Provider provider)
+    public ContainerConfigBase(string name, Pulumi.Config config, Provider provider)
     {
         Name = name;
         Config = config;
