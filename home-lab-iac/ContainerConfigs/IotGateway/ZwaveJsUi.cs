@@ -26,8 +26,8 @@ public class ZwaveJsUi : ContainerConfigBase
         };
         ContainerArgs.Volumes = new InputList<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                ContainerPath = "/usr/src/app/store",
-                HostPath = "/home/pi/zwave-js-ui/store"
+                HostPath = "/home/pi/zwave-js-ui/store",
+                ContainerPath = "/usr/src/app/store"
             }
         };
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
