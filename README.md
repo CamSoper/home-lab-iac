@@ -4,7 +4,7 @@ This repository contains a Pulumi program written in C# to manage a home lab inf
 
 ## Overview
 
-This project uses Pulumi to define and deploy Docker containers for a range of services commonly used in a home lab environment, such as:
+This project uses Pulumi to define and deploy Docker containers for a range of services used in my home lab environment, including:
 
 - Home automation systems (Home Assistant)
 - IoT device integrations (Zigbee, Z-Wave, Govee)
