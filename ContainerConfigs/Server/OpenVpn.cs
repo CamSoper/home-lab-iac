@@ -52,7 +52,7 @@ public class OpenVpn : ContainerConfigBase
         {
             new ContainerVolumeArgs
             {
-                HostPath = basePath + "/openvpn",
+                HostPath = basePath + "/openvpn/openvpn",
                 ContainerPath = "/openvpn"
             }
         };
