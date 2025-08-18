@@ -26,42 +26,31 @@ class HomeStack : Stack
 
         var containers = new List<ContainerConfigBase>
         {
-            new NodeRed(config, server),
-            new EspHome(config, server),
-            new HomeAssistant(config, server, basePath),
-            new Govee2Mqtt(config, server),
-            new MiniDnla(config, server),
-            new Mqtt(config, server, basePath),
-            new OctoPrint(config, server, basePath),
-            new ZwaveJsUi(config, iotGateway)
+            // Server
+            new NodeRed("nodered", config, server),
+            new EspHome("esphome", config, server),
+            new HomeAssistant("homeassistant", config, server, basePath),
+            new Govee2Mqtt("govee2mqtt", config, server),
+            new MiniDnla("minidlna", config, server),
+            new Mqtt("mqtt", config, server, basePath),
+            new OctoPrint("octoprint", config, server, basePath),
+            new Omada("omada", config, server, basePath),
+            new Onstar2Mqtt("onstar2mqtt", config, server, basePath),
+            new OpenVpn("openvpn", config, server, basePath),
+
+            // IoT Gateway
+            new ZwaveJsUi("zwave-js-ui", config, iotGateway),
+            new Zigbee2Mqtt("zigbee2mqtt", config, iotGateway),
         };
 
         foreach (var cfg in containers)
         {
             var image = new RemoteImage(cfg.Name, new()
             {
-                Name = cfg.Image,
+                Name = cfg.ContainerArgs.Image,
             });
 
-            var container = new Container(cfg.Name, new ContainerArgs
-            {
-                Name = cfg.Name,
-                Image = cfg.Image,
-                Restart = cfg.Restart,
-                NetworkMode = cfg.NetworkMode ?? string.Empty,
-                Envs = cfg.Envs ?? Output.Create(new string[0]),
-                Mounts = cfg.Mounts ?? new List<ContainerMountArgs>(),
-                Ports = cfg.Ports ?? new InputList<ContainerPortArgs>(),
-                Init = cfg.Init,
-                Privileged = cfg.Privileged,
-                Devices = cfg.Devices ?? new InputList<ContainerDeviceArgs>(),
-                NetworksAdvanced = cfg.Networks ?? new InputList<ContainerNetworksAdvancedArgs>(),
-                Tty = cfg.Tty,
-                StopSignal = cfg.StopSignal,
-                Volumes = cfg.Volumes ?? new InputList<ContainerVolumeArgs>(),
-                User = cfg.User
-            },
-            new CustomResourceOptions
+            var container = new Container(cfg.Name, cfg.ContainerArgs, new CustomResourceOptions
             {
                 Provider = cfg.Provider
             });

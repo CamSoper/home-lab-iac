@@ -10,11 +10,10 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class Mqtt : ContainerConfigBase
 {
-    public Mqtt(Pulumi.Config config, Provider provider, string basePath) : base(config, provider)
+    public Mqtt(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
     {
-        Name = "mqtt";
-        Image = "eclipse-mosquitto:" + (config.Get("mqttImageTag") ?? "latest");
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "eclipse-mosquitto:" + (config.Get("mqttImageTag") ?? "latest");
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -23,7 +22,7 @@ public class Mqtt : ContainerConfigBase
                 Type = "bind"
             }
         };
-        Restart = "unless-stopped";
-        NetworkMode = "host";
+        ContainerArgs.Restart = "unless-stopped";
+        ContainerArgs.NetworkMode = "host";
     }
 }

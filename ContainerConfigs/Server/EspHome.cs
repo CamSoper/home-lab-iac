@@ -10,13 +10,12 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class EspHome : ContainerConfigBase
 {
-    public EspHome(Pulumi.Config config, Provider provider) : base(config, provider)
+    public EspHome(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
-        Name = "esphome";
-        Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest");
-        NetworkMode = "host";
-        Restart = "always";
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest");
+        ContainerArgs.NetworkMode = "host";
+        ContainerArgs.Restart = "always";
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -32,6 +31,6 @@ public class EspHome : ContainerConfigBase
                 ReadOnly = true
             }
         };
-        Init = true;
+        ContainerArgs.Init = true;
     }
 }

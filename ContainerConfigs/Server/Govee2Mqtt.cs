@@ -10,14 +10,13 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class Govee2Mqtt : ContainerConfigBase
 {
-    public Govee2Mqtt(Pulumi.Config config, Provider provider) : base(config, provider)
+    public Govee2Mqtt(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
-        Name = "govee2mqtt";
-        Image = "ghcr.io/wez/govee2mqtt:" + (config.Get("govee2mqttImageTag") ?? "latest");
-        Envs = goveeEnvs(config);
-        NetworkMode = "host";
-        Restart = "always";
-        Init = true;
+        ContainerArgs.Image = "ghcr.io/wez/govee2mqtt:" + (config.Get("govee2mqttImageTag") ?? "latest");
+        ContainerArgs.Envs = goveeEnvs(config);
+        ContainerArgs.NetworkMode = "host";
+        ContainerArgs.Restart = "always";
+        ContainerArgs.Init = true;
     }
 
     private Output<string[]> goveeEnvs(Pulumi.Config config)

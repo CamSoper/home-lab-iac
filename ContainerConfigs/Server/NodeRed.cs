@@ -10,14 +10,13 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class NodeRed : ContainerConfigBase
 {
-    public NodeRed(Pulumi.Config config, Provider provider) : base(config, provider)
+    public NodeRed(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
-        Name = "nodered";
-        Image = "nodered/node-red:" + (config.Get("nodeRedImageTag") ?? "latest");
-        Envs = Output.Create(new[] { "TZ=America/Chicago" });
-        NetworkMode = "host";
-        Restart = "unless-stopped";
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "nodered/node-red:" + (config.Get("nodeRedImageTag") ?? "latest");
+        ContainerArgs.Envs = Output.Create(new[] { "TZ=America/Chicago" });
+        ContainerArgs.NetworkMode = "host";
+        ContainerArgs.Restart = "unless-stopped";
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -26,6 +25,6 @@ public class NodeRed : ContainerConfigBase
                 Target = "/data"
             }
         };
-        Init = true;
+        ContainerArgs.Init = true;
     }
 }

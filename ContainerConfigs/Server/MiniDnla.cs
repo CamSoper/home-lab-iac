@@ -10,11 +10,10 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class MiniDnla : ContainerConfigBase
 {
-    public MiniDnla(Pulumi.Config config, Provider provider) : base(config, provider)
+    public MiniDnla(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
-        Name = "minidlna";
-        Image = "geekduck/minidlna:" + (config.Get("miniDnlaImageTag") ?? "latest");
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "geekduck/minidlna:" + (config.Get("miniDnlaImageTag") ?? "latest");
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -35,7 +34,7 @@ public class MiniDnla : ContainerConfigBase
                 Type = "bind"
             }
         };
-        Restart = "unless-stopped";
-        NetworkMode = "host";
+        ContainerArgs.Restart = "unless-stopped";
+        ContainerArgs.NetworkMode = "host";
     }
 }

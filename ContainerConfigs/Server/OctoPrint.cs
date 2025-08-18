@@ -10,11 +10,10 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class OctoPrint : ContainerConfigBase
 {
-    public OctoPrint(Pulumi.Config config, Provider provider, string basePath) : base(config, provider)
+    public OctoPrint(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
     {
-        Name = "octoprint";
-        Image = "octoprint/octoprint:" + (config.Get("octoprintImageTag") ?? "latest");
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "octoprint/octoprint:" + (config.Get("octoprintImageTag") ?? "latest");
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -23,7 +22,7 @@ public class OctoPrint : ContainerConfigBase
                 Target = "/octoprint",
             }
         };
-        Ports = new List<ContainerPortArgs>
+        ContainerArgs.Ports = new List<ContainerPortArgs>
         {
             new ContainerPortArgs
             {
@@ -31,7 +30,7 @@ public class OctoPrint : ContainerConfigBase
                 Internal = 80
             }
         };
-        Devices = new InputList<ContainerDeviceArgs> {
+        ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs
             {
                 HostPath = "/dev/ttyACM0",
@@ -43,7 +42,7 @@ public class OctoPrint : ContainerConfigBase
                 ContainerPath = "/dev/video0"
             }
         };
-        Restart = "unless-stopped";
-        NetworkMode = "bridge";
+        ContainerArgs.Restart = "unless-stopped";
+        ContainerArgs.NetworkMode = "bridge";
     }
 }

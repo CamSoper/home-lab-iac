@@ -10,11 +10,10 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class HomeAssistant : ContainerConfigBase
 {
-    public HomeAssistant(Pulumi.Config config, Provider provider, string basePath) : base(config, provider)
+    public HomeAssistant(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
     {
-        Name = "homeassistant";
-        Image = "homeassistant/home-assistant:" + (config.Get("homeAssistantImageTag") ?? "latest");
-        Mounts = new List<ContainerMountArgs>
+        ContainerArgs.Image = "homeassistant/home-assistant:" + (config.Get("homeAssistantImageTag") ?? "latest");
+        ContainerArgs.Mounts = new List<ContainerMountArgs>
         {
             new ContainerMountArgs
             {
@@ -42,8 +41,8 @@ public class HomeAssistant : ContainerConfigBase
                 Target = "/media/snapshots"
             }
         };
-        NetworkMode = "host";
-        Restart = "unless-stopped";
-        Privileged = true;
+        ContainerArgs.NetworkMode = "host";
+        ContainerArgs.Restart = "unless-stopped";
+        ContainerArgs.Privileged = true;
     }
 }
