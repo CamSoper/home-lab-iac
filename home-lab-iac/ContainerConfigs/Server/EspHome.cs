@@ -12,16 +12,13 @@ public class EspHome : ContainerConfigBase
         ContainerArgs.Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "always";
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
+        ContainerArgs.Mounts = new List<ContainerMountArgs> {
+            new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("baseVolumePath") + "/esphome/config",
+                Source = config.Require("serverBasePath") + "/esphome/config",
                 Target = "/config"
             },
-            new ContainerMountArgs
-            {
+            new ContainerMountArgs {
                 Type = "bind",
                 Source = "/etc/localtime",
                 Target = "/etc/localtime",

@@ -7,7 +7,6 @@ using home_lab_iac.ContainerConfigs;
 return await Deployment.RunAsync(() =>
 {
     var config = new Pulumi.Config();
-    var basePath = config.Require("baseVolumePath");
 
     var server = new Provider("server", new ProviderArgs
     {
@@ -19,22 +18,22 @@ return await Deployment.RunAsync(() =>
     });
 
     var containers = new List<ContainerConfigBase>
-        {
-            // Server
-            new NodeRed("nodered", config, server),
-            new EspHome("esphome", config, server),
-            new HomeAssistant("homeassistant", config, server, basePath),
-            new Govee2Mqtt("govee2mqtt", config, server),
-            new MiniDnla("minidlna", config, server),
-            new Mqtt("mqtt", config, server, basePath),
-            new OctoPrint("octoprint", config, server, basePath),
-            new Omada("omada", config, server, basePath),
-            new Onstar2Mqtt("onstar2mqtt", config, server, basePath),
-            new OpenVpn("openvpn", config, server, basePath),
+    {
+        // Server
+        new NodeRed("nodered", config, server),
+        new EspHome("esphome", config, server),
+        new HomeAssistant("homeassistant", config, server),
+        new Govee2Mqtt("govee2mqtt", config, server),
+        new MiniDnla("minidlna", config, server),
+        new Mqtt("mqtt", config, server),
+        new OctoPrint("octoprint", config, server),
+        new Omada("omada", config, server),
+        new Onstar2Mqtt("onstar2mqtt", config, server),
+        new OpenVpn("openvpn", config, server),
 
-            // IoT Gateway
-            new ZwaveJsUi("zwave-js-ui", config, iotGateway),
-            new Zigbee2Mqtt("zigbee2mqtt", config, iotGateway),
+        // IoT Gateway
+        new ZwaveJsUi("zwave-js-ui", config, iotGateway),
+        new Zigbee2Mqtt("zigbee2mqtt", config, iotGateway),
         };
 
     foreach (var cfg in containers)

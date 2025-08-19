@@ -7,34 +7,29 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class HomeAssistant : ContainerConfigBase
 {
-    public HomeAssistant(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
+    public HomeAssistant(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "homeassistant/home-assistant:" + (config.Get("homeAssistantImageTag") ?? "latest");
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
+        ContainerArgs.Mounts = new List<ContainerMountArgs> {
+            new ContainerMountArgs {
                 Type = "bind",
-                Source = basePath + "/hass/config",
+                Source = config.Require("serverBasePath") + "/hass/config",
                 Target = "/config"
             },
-            new ContainerMountArgs
-            {
+            new ContainerMountArgs {
                 Type = "bind",
                 Source = "/etc/localtime",
                 Target = "/etc/localtime",
                 ReadOnly = true
             },
-            new ContainerMountArgs
-            {
+            new ContainerMountArgs {
                 Type = "bind",
                 Source = "/var/run/docker.sock",
                 Target = "/var/run/docker.sock"
             },
-            new ContainerMountArgs
-            {
+            new ContainerMountArgs {
                 Type = "bind",
-                Source = basePath + "/hass/media/snapshots",
+                Source = config.Require("serverBasePath") + "/hass/media/snapshots",
                 Target = "/media/snapshots"
             }
         };

@@ -25,8 +25,7 @@ public class Govee2Mqtt : ContainerConfigBase
             config.RequireSecret("goveeMqttUser"),
             config.RequireSecret("goveeMqttPassword"),
             Output.Create(config.Require("goveeTemperatureScale"))
-        ).Apply(values => new[]
-        {
+        ).Apply(values => new[]{
             $"GOVEE_EMAIL={values[0]}",
             $"GOVEE_PASSWORD={values[1]}",
             $"GOVEE_API_KEY={values[2]}",

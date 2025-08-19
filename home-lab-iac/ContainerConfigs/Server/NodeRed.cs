@@ -14,12 +14,10 @@ public class NodeRed : ContainerConfigBase
         ContainerArgs.Envs = Output.Create(new[] { "TZ=America/Chicago" });
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "unless-stopped";
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
+        ContainerArgs.Mounts = new List<ContainerMountArgs>{
+            new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("baseVolumePath") + "/nodered/data",
+                Source = config.Require("serverBasePath") + "/nodered/data",
                 Target = "/data"
             }
         };

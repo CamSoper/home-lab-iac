@@ -8,7 +8,7 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class Omada : ContainerConfigBase
 {
-    public Omada(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
+    public Omada(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "mbentley/omada-controller:" + (config.Get("omadaImageTag") ?? "latest");
         ContainerArgs.Restart = "unless-stopped";
@@ -33,23 +33,19 @@ public class Omada : ContainerConfigBase
             "TZ=Etc/UTC"
         });
         ContainerArgs.DestroyGraceSeconds = 60;
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
-                Source = basePath + "/omada/data",
+        ContainerArgs.Mounts = new List<ContainerMountArgs> {
+            new ContainerMountArgs {
+                Source = config.Require("serverBasePath") + "/omada/data",
                 Target = "/opt/tplink/EAPController/data",
                 Type = "bind"
             },
-            new ContainerMountArgs
-            {
-                Source = basePath + "/omada/logs",
+            new ContainerMountArgs {
+                Source = config.Require("serverBasePath") + "/omada/logs",
                 Target = "/opt/tplink/EAPController/logs",
                 Type = "bind"
             },
-            new ContainerMountArgs
-            {
-                Source = basePath + "/omada/work",
+            new ContainerMountArgs {
+                Source = config.Require("serverBasePath") + "/omada/work",
                 Target = "/opt/tplink/EAPController/work",
                 Type = "bind"
             }

@@ -8,34 +8,29 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class OctoPrint : ContainerConfigBase
 {
-    public OctoPrint(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
+    public OctoPrint(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "octoprint/octoprint:" + (config.Get("octoprintImageTag") ?? "latest");
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
+        ContainerArgs.Mounts = new List<ContainerMountArgs> {
+            new ContainerMountArgs {
                 Type = "bind",
-                Source = basePath + "/octoprint",
+                Source = config.Require("serverBasePath") + "/octoprint",
                 Target = "/octoprint",
             }
         };
         ContainerArgs.Ports = new List<ContainerPortArgs>
         {
-            new ContainerPortArgs
-            {
+            new ContainerPortArgs {
                 External = 80,
                 Internal = 80
             }
         };
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
-            new ContainerDeviceArgs
-            {
+            new ContainerDeviceArgs {
                 HostPath = "/dev/ttyACM0",
                 ContainerPath = "/dev/ttyACM0"
             },
-            new ContainerDeviceArgs
-            {
+            new ContainerDeviceArgs {
                 HostPath = "/dev/video0",
                 ContainerPath = "/dev/video0"
             }

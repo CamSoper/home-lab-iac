@@ -5,7 +5,7 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class Onstar2Mqtt : ContainerConfigBase
 {
-    public Onstar2Mqtt(string name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
+    public Onstar2Mqtt(string name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "ghcr.io/bigthundersr/onstar2mqtt:" + (config.Get("onstar2MqttImageTag") ?? "latest");
         ContainerArgs.Restart = "unless-stopped";
@@ -24,8 +24,7 @@ public class Onstar2Mqtt : ContainerConfigBase
             Output.Create(config.Require("onstarMqttHost")),
             config.RequireSecret("onstarMqttUser"),
             config.RequireSecret("onstarMqttPassword")
-        ).Apply(values => new[]
-        {
+        ).Apply(values => new[] {
             $"ONSTAR_DEVICEID={values[0]}",
             $"ONSTAR_VIN={values[1]}",
             $"ONSTAR_USERNAME={values[2]}",

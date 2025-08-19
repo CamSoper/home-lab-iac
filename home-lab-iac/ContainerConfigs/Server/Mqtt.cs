@@ -7,14 +7,12 @@ namespace home_lab_iac.ContainerConfigs;
 
 public class Mqtt : ContainerConfigBase
 {
-    public Mqtt(String name, Pulumi.Config config, Provider provider, string basePath) : base(name, config, provider)
+    public Mqtt(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "eclipse-mosquitto:" + (config.Get("mqttImageTag") ?? "latest");
-        ContainerArgs.Mounts = new List<ContainerMountArgs>
-        {
-            new ContainerMountArgs
-            {
-                Source = basePath + "/mqtt/mosquitto",
+        ContainerArgs.Mounts = new List<ContainerMountArgs> {
+            new ContainerMountArgs {
+                Source = config.Require("serverBasePath") + "/mqtt/mosquitto",
                 Target = "/mosquitto",
                 Type = "bind"
             }

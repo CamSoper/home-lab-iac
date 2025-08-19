@@ -26,7 +26,7 @@ public class ZwaveJsUi : ContainerConfigBase
         };
         ContainerArgs.Volumes = new InputList<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                HostPath = "/home/pi/zwave-js-ui/store",
+                HostPath = config.Require("iotGatewayBasePath") + "/zwave-js-ui/store",
                 ContainerPath = "/usr/src/app/store"
             }
         };
@@ -43,8 +43,7 @@ public class ZwaveJsUi : ContainerConfigBase
     {
         return Output.All(
             config.RequireSecret("zwaveSessionSecret")
-        ).Apply(values => new[]
-        {
+        ).Apply(values => new[] {
             $"SESSION_SECRET={values[0]}"
         });
     }
