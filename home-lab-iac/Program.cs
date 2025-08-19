@@ -43,9 +43,9 @@ return await Deployment.RunAsync(() =>
             Name = cfg.ContainerArgs.Image,
         });
 
-        var container = new Container(cfg.Name, cfg.ContainerArgs, new CustomResourceOptions
-        {
-            Provider = cfg.Provider
+        var container = new Container(cfg.Name, cfg.ContainerArgs,
+            new CustomResourceOptions {
+                Provider = cfg.Provider
         });
     }
 });
