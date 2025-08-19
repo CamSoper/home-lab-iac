@@ -32,18 +32,18 @@ return await Deployment.RunAsync(() =>
         // IoT Gateway
         new ZwaveJsUi("zwave-js-ui", config, iotGateway),
         new Zigbee2Mqtt("zigbee2mqtt", config, iotGateway),
-        };
+    };
 
-        foreach (var cfg in containers)
+    foreach (var cfg in containers)
+    {
+        var image = new RemoteImage(cfg.Name, new()
         {
-            var image = new RemoteImage(cfg.Name, new()
-            {
-                Name = cfg.ContainerArgs.Image,
-            });
+            Name = cfg.ContainerArgs.Image,
+        });
 
-            var container = new Container(cfg.Name, cfg.ContainerArgs,
-                new CustomResourceOptions {
-                    Provider = cfg.Provider
-            });
-        }
+        var container = new Container(cfg.Name, cfg.ContainerArgs,
+            new CustomResourceOptions {
+                Provider = cfg.Provider
+        });
+    }
 });
