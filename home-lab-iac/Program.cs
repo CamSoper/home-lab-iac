@@ -8,12 +8,10 @@ return await Deployment.RunAsync(() =>
 {
     var config = new Pulumi.Config();
 
-    var server = new Provider("server", new ProviderArgs
-    {
+    var server = new Provider("server", new ProviderArgs{
         Host = "ssh://" + config.Require("serverHost")
     });
-    var iotGateway = new Provider("iotGateway", new ProviderArgs
-    {
+    var iotGateway = new Provider("iotGateway", new ProviderArgs {
         Host = "ssh://" + config.Require("iotGatewayHost")
     });
 
