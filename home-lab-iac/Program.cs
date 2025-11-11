@@ -28,6 +28,8 @@ return await Deployment.RunAsync(() =>
         new Omada("omada", config, server),
         new Onstar2Mqtt("onstar2mqtt", config, server),
         new OpenVpn("openvpn", config, server),
+        new Fing("fingagent", config, server),
+        //new NetAlertX("netalertx", config, server),
 
         // IoT Gateway
         new ZwaveJsUi("zwave-js-ui", config, iotGateway),
