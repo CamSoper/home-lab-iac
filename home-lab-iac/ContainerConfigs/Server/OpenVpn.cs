@@ -11,7 +11,7 @@ public class OpenVpn : ContainerConfigBase
         ContainerArgs.Image = "openvpn/openvpn-as:" + (config.Get("openVpnImageTag") ?? "latest");
         ContainerArgs.Capabilities = new ContainerCapabilitiesArgs
         {
-            Adds = new[] { "NET_ADMIN" }
+            Adds = new[] { "CAP_NET_ADMIN" }
         };
         ContainerArgs.Ports = new List<ContainerPortArgs> {
             new ContainerPortArgs {

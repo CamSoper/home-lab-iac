@@ -19,15 +19,9 @@ public class Fing : ContainerConfigBase
                 Type = "bind"
             }
         };
-        ContainerArgs.Ports = new List<ContainerPortArgs> {
-            new ContainerPortArgs {
-            Internal = 44444,
-            External = 44444
-            }
-        };
         ContainerArgs.Capabilities = new ContainerCapabilitiesArgs {
             Adds = new List<string> {
-                "NET_ADMIN"
+                "CAP_NET_ADMIN"
             }
         };
     }

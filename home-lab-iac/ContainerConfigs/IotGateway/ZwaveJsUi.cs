@@ -33,7 +33,8 @@ public class ZwaveJsUi : ContainerConfigBase
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs {
                 HostPath = "/dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_61201667-if00-port0",
-                ContainerPath = "/dev/zwave"
+                ContainerPath = "/dev/zwave",
+                Permissions = "rwm"
             }
         };
         ContainerArgs.NetworkMode = "bridge";

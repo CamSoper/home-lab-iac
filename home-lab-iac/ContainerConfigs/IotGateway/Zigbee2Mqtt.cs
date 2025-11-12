@@ -26,7 +26,8 @@ public class Zigbee2Mqtt : ContainerConfigBase
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs {
                 HostPath = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_d4bf08e152c9eb1186ae914f1d69213e-if00-port0",
-                ContainerPath = "/dev/ttyUSB0"
+                ContainerPath = "/dev/ttyUSB0",
+                Permissions = "rwm"
             }
         };
         ContainerArgs.Restart = "always";

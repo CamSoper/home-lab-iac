@@ -28,11 +28,13 @@ public class OctoPrint : ContainerConfigBase
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs {
                 HostPath = "/dev/ttyACM0",
-                ContainerPath = "/dev/ttyACM0"
+                ContainerPath = "/dev/ttyACM0",
+                Permissions = "rwm"
             },
             new ContainerDeviceArgs {
                 HostPath = "/dev/video0",
-                ContainerPath = "/dev/video0"
+                ContainerPath = "/dev/video0",
+                Permissions = "rwm"
             }
         };
         ContainerArgs.Restart = "unless-stopped";
