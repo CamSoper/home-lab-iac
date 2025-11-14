@@ -9,7 +9,7 @@ public class Fing : ContainerConfigBase
 {
     public Fing(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
-        ContainerArgs.Image = "fing/fing-agent";
+        ContainerArgs.Image = "fing/fing-agent:" + (config.Get("fingImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "always";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {

@@ -29,7 +29,8 @@ return await Deployment.RunAsync(() =>
         new Onstar2Mqtt("onstar2mqtt", config, server),
         new OpenVpn("openvpn", config, server),
         new Fing("fingagent", config, server),
-        //new NetAlertX("netalertx", config, server),
+        new PiHole("pihole", config, server),
+        //new NebulaSync("nebulasync", config, server),
 
         // IoT Gateway
         new ZwaveJsUi("zwave-js-ui", config, iotGateway),
