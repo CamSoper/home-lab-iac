@@ -10,9 +10,10 @@ public class Zigbee2Mqtt : ContainerConfigBase
     public Zigbee2Mqtt(string name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "koenkk/zigbee2mqtt:" + (config.Get("zigbee2mqttImageTag") ?? "latest");
+        var dataPath = config.Require("iotGatewayBasePath") + "/zigbee2mqtt/data";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("iotGatewayBasePath") + "/zigbee2mqtt/data",
+                Source = dataPath,
                 Target = "/app/data",
                 Type = "bind"
             },
@@ -23,6 +24,7 @@ public class Zigbee2Mqtt : ContainerConfigBase
                 ReadOnly = true
             }
         };
+        HostDirectories.Add(dataPath);
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs {
                 HostPath = "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_d4bf08e152c9eb1186ae914f1d69213e-if00-port0",

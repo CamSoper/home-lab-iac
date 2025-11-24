@@ -33,23 +33,29 @@ public class Omada : ContainerConfigBase
             "TZ=Etc/UTC"
         });
         ContainerArgs.DestroyGraceSeconds = 60;
+        var dataPath = config.Require("serverBasePath") + "/omada/data";
+        var logsPath = config.Require("serverBasePath") + "/omada/logs";
+        var workPath = config.Require("serverBasePath") + "/omada/work";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/data",
+                Source = dataPath,
                 Target = "/opt/tplink/EAPController/data",
                 Type = "bind"
             },
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/logs",
+                Source = logsPath,
                 Target = "/opt/tplink/EAPController/logs",
                 Type = "bind"
             },
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/work",
+                Source = workPath,
                 Target = "/opt/tplink/EAPController/work",
                 Type = "bind"
             }
         };
+        HostDirectories.Add(dataPath);
+        HostDirectories.Add(logsPath);
+        HostDirectories.Add(workPath);
         ContainerArgs.Init = true;
     }
 }

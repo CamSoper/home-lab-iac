@@ -1,4 +1,5 @@
 using Pulumi.Docker;
+using System.Collections.Generic;
 
 namespace home_lab_iac.ContainerConfigs;
 
@@ -16,4 +17,5 @@ public abstract class ContainerConfigBase
     public Pulumi.Config Config { get; }
     public Provider Provider { get; }
     public ContainerArgs ContainerArgs { get; set; } = new ContainerArgs();
+    public List<string> HostDirectories { get; } = new();
 }

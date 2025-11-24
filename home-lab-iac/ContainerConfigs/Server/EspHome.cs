@@ -12,10 +12,11 @@ public class EspHome : ContainerConfigBase
         ContainerArgs.Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "always";
+        var configPath = config.Require("serverBasePath") + "/esphome/config";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/esphome/config",
+                Source = configPath,
                 Target = "/config"
             },
             new ContainerMountArgs {
@@ -25,6 +26,7 @@ public class EspHome : ContainerConfigBase
                 ReadOnly = true
             }
         };
+        HostDirectories.Add(configPath);
         ContainerArgs.Init = true;
     }
 }
