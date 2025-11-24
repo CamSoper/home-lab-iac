@@ -24,12 +24,14 @@ public class ZwaveJsUi : ContainerConfigBase
                 External = 3000
             }
         };
+        var storePath = config.Require("iotGatewayBasePath") + "/zwave-js-ui/store";
         ContainerArgs.Volumes = new InputList<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                HostPath = config.Require("iotGatewayBasePath") + "/zwave-js-ui/store",
+                HostPath = storePath,
                 ContainerPath = "/usr/src/app/store"
             }
         };
+        HostDirectories.Add(storePath);
         ContainerArgs.Devices = new InputList<ContainerDeviceArgs> {
             new ContainerDeviceArgs {
                 HostPath = "/dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_61201667-if00-port0",

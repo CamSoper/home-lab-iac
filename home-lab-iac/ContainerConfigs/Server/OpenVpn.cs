@@ -25,11 +25,13 @@ public class OpenVpn : ContainerConfigBase
             }
         };
         ContainerArgs.Restart = "always";
+        var openVpnPath = config.Require("serverBasePath") + "/openvpn/openvpn";
         ContainerArgs.Volumes = new List<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                HostPath = config.Require("serverBasePath") + "/openvpn/openvpn",
+                HostPath = openVpnPath,
                 ContainerPath = "/openvpn"
             }
         };
+        HostDirectories.Add(openVpnPath);
     }
 }

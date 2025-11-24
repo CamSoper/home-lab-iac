@@ -10,10 +10,12 @@ public class HomeAssistant : ContainerConfigBase
     public HomeAssistant(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
         ContainerArgs.Image = "homeassistant/home-assistant:" + (config.Get("homeAssistantImageTag") ?? "latest");
+        var configPath = config.Require("serverBasePath") + "/hass/config";
+        var snapshotsPath = config.Require("serverBasePath") + "/hass/media/snapshots";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/hass/config",
+                Source = configPath,
                 Target = "/config"
             },
             new ContainerMountArgs {
@@ -29,10 +31,12 @@ public class HomeAssistant : ContainerConfigBase
             },
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/hass/media/snapshots",
+                Source = snapshotsPath,
                 Target = "/media/snapshots"
             }
         };
+        HostDirectories.Add(configPath);
+        HostDirectories.Add(snapshotsPath);
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "unless-stopped";
         ContainerArgs.Privileged = true;

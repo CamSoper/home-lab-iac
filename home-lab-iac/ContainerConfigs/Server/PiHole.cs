@@ -19,13 +19,15 @@ public class PiHole : ContainerConfigBase
             Output.Format($"FTLCONF_webserver_api_password={config.RequireSecret("piholeWebPassword").Apply(p => p.ToString())}"),
             "FTLCONF_dns_listeningMode=ALL"
         };
+        var piholePath = config.Require("serverBasePath") + "/pihole";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/pihole",
+                Source = piholePath,
                 Target = "/etc/pihole",
                 Type = "bind"
             }
         };
+        HostDirectories.Add(piholePath);
         ContainerArgs.Ports = new List<ContainerPortArgs> {
             new ContainerPortArgs {
                 Internal = 80,
