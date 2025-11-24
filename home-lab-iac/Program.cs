@@ -5,6 +5,8 @@ using Pulumi;
 using Pulumi.Command.Remote;
 using Pulumi.Docker;
 using home_lab_iac.ContainerConfigs;
+using Pulumi.Command.Remote.Inputs;
+using System;
 
 return await Deployment.RunAsync(() =>
 {
@@ -103,12 +105,12 @@ return await Deployment.RunAsync(() =>
     }
 });
 
-static RemoteCommand CreateDirectoryCommand(string name, string path, ConnectionArgs connection)
+static Command CreateDirectoryCommand(string name, string path, ConnectionArgs connection)
 {
-    return new RemoteCommand(name, new RemoteCommandArgs
+    return new Command(name, new CommandArgs
     {
         Connection = connection,
-        Create = Output.Format("mkdir -p \"{0}\"", path),
-        Update = Output.Format("mkdir -p \"{0}\"", path)
+        Create = Output.Format($"mkdir -p \"{path}\""),
+        Update = Output.Format($"mkdir -p \"{path}\""),
     });
 }
