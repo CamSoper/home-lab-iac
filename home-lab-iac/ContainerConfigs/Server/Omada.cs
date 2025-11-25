@@ -10,6 +10,10 @@ public class Omada : ContainerConfigBase
 {
     public Omada(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var dataPath = config.Require("serverBasePath") + "/omada/data";
+        var logsPath = config.Require("serverBasePath") + "/omada/logs";
+        var workPath = config.Require("serverBasePath") + "/omada/work";
+
         ContainerArgs.Image = "mbentley/omada-controller:" + (config.Get("omadaImageTag") ?? "latest");
         ContainerArgs.Restart = "unless-stopped";
         ContainerArgs.NetworkMode = "host";
@@ -35,21 +39,24 @@ public class Omada : ContainerConfigBase
         ContainerArgs.DestroyGraceSeconds = 60;
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/data",
+                Source = dataPath,
                 Target = "/opt/tplink/EAPController/data",
                 Type = "bind"
             },
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/logs",
+                Source = logsPath,
                 Target = "/opt/tplink/EAPController/logs",
                 Type = "bind"
             },
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/omada/work",
+                Source = workPath,
                 Target = "/opt/tplink/EAPController/work",
                 Type = "bind"
             }
         };
         ContainerArgs.Init = true;
+        EnsureHostPath(dataPath);
+        EnsureHostPath(logsPath);
+        EnsureHostPath(workPath);
     }
 }

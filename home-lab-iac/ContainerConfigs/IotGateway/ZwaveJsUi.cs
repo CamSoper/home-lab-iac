@@ -9,6 +9,8 @@ public class ZwaveJsUi : ContainerConfigBase
 {
     public ZwaveJsUi(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var storePath = config.Require("iotGatewayBasePath") + "/zwave-js-ui/store";
+
         ContainerArgs.Image = "zwavejs/zwave-js-ui:latest";
         ContainerArgs.Restart = "always";
         ContainerArgs.Tty = true;
@@ -26,7 +28,7 @@ public class ZwaveJsUi : ContainerConfigBase
         };
         ContainerArgs.Volumes = new InputList<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                HostPath = config.Require("iotGatewayBasePath") + "/zwave-js-ui/store",
+                HostPath = storePath,
                 ContainerPath = "/usr/src/app/store"
             }
         };
@@ -38,6 +40,7 @@ public class ZwaveJsUi : ContainerConfigBase
             }
         };
         ContainerArgs.NetworkMode = "bridge";
+        EnsureHostPath(storePath);
     }
 
     private Output<string[]> zwaveEnvs(Pulumi.Config config)

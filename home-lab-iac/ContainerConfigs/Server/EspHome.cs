@@ -9,13 +9,15 @@ public class EspHome : ContainerConfigBase
 {
     public EspHome(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var configPath = config.Require("serverBasePath") + "/esphome/config";
+
         ContainerArgs.Image = "esphome/esphome:" + (config.Get("esphomeImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "always";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/esphome/config",
+                Source = configPath,
                 Target = "/config"
             },
             new ContainerMountArgs {
@@ -26,5 +28,6 @@ public class EspHome : ContainerConfigBase
             }
         };
         ContainerArgs.Init = true;
+        EnsureHostPath(configPath);
     }
 }

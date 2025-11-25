@@ -8,6 +8,8 @@ public class OpenVpn : ContainerConfigBase
 {
     public OpenVpn(string name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var openVpnPath = config.Require("serverBasePath") + "/openvpn/openvpn";
+
         ContainerArgs.Image = "openvpn/openvpn-as:" + (config.Get("openVpnImageTag") ?? "latest");
         ContainerArgs.Capabilities = new ContainerCapabilitiesArgs
         {
@@ -27,9 +29,10 @@ public class OpenVpn : ContainerConfigBase
         ContainerArgs.Restart = "always";
         ContainerArgs.Volumes = new List<ContainerVolumeArgs> {
             new ContainerVolumeArgs {
-                HostPath = config.Require("serverBasePath") + "/openvpn/openvpn",
+                HostPath = openVpnPath,
                 ContainerPath = "/openvpn"
             }
         };
+        EnsureHostPath(openVpnPath);
     }
 }

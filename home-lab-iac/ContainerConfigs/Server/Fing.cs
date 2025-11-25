@@ -9,12 +9,14 @@ public class Fing : ContainerConfigBase
 {
     public Fing(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var fingDataPath = config.Require("serverBasePath") + "/fingagent";
+
         ContainerArgs.Image = "fing/fing-agent:" + (config.Get("fingImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "host";
         ContainerArgs.Restart = "always";
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/fingagent",
+                Source = fingDataPath,
                 Target = "/app/fingdata",
                 Type = "bind"
             }
@@ -24,5 +26,6 @@ public class Fing : ContainerConfigBase
                 "CAP_NET_ADMIN"
             }
         };
+        EnsureHostPath(fingDataPath);
     }
 }
