@@ -10,11 +10,13 @@ public class OctoPrint : ContainerConfigBase
 {
     public OctoPrint(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var octoPrintPath = config.Require("serverBasePath") + "/octoprint";
+
         ContainerArgs.Image = "octoprint/octoprint:" + (config.Get("octoprintImageTag") ?? "latest");
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/octoprint",
+                Source = octoPrintPath,
                 Target = "/octoprint",
             }
         };
@@ -39,5 +41,6 @@ public class OctoPrint : ContainerConfigBase
         };
         ContainerArgs.Restart = "unless-stopped";
         ContainerArgs.NetworkMode = "bridge";
+        EnsureHostPath(octoPrintPath);
     }
 }

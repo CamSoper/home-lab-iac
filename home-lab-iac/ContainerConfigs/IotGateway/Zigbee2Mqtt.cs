@@ -9,10 +9,12 @@ public class Zigbee2Mqtt : ContainerConfigBase
 {
     public Zigbee2Mqtt(string name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var dataPath = config.Require("iotGatewayBasePath") + "/zigbee2mqtt/data";
+
         ContainerArgs.Image = "koenkk/zigbee2mqtt:" + (config.Get("zigbee2mqttImageTag") ?? "latest");
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("iotGatewayBasePath") + "/zigbee2mqtt/data",
+                Source = dataPath,
                 Target = "/app/data",
                 Type = "bind"
             },
@@ -40,5 +42,6 @@ public class Zigbee2Mqtt : ContainerConfigBase
                 External = 8080
             }
         };
+        EnsureHostPath(dataPath);
     }
 }

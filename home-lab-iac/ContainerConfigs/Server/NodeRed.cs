@@ -10,6 +10,8 @@ public class NodeRed : ContainerConfigBase
 {
     public NodeRed(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var dataPath = config.Require("serverBasePath") + "/nodered/data";
+
         ContainerArgs.Image = "nodered/node-red:" + (config.Get("nodeRedImageTag") ?? "latest");
         ContainerArgs.Envs = Output.Create(new[] { "TZ=America/Chicago" });
         ContainerArgs.NetworkMode = "host";
@@ -17,10 +19,11 @@ public class NodeRed : ContainerConfigBase
         ContainerArgs.Mounts = new List<ContainerMountArgs>{
             new ContainerMountArgs {
                 Type = "bind",
-                Source = config.Require("serverBasePath") + "/nodered/data",
+                Source = dataPath,
                 Target = "/data"
             }
         };
         ContainerArgs.Init = true;
+        EnsureHostPath(dataPath);
     }
 }

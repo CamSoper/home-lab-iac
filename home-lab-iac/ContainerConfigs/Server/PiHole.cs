@@ -10,6 +10,8 @@ public class PiHole : ContainerConfigBase
 {
     public PiHole(String name, Pulumi.Config config, Provider provider) : base(name, config, provider)
     {
+        var piholePath = config.Require("serverBasePath") + "/pihole";
+
         ContainerArgs.Image = "pihole/pihole:" + (config.Get("piHoleImageTag") ?? "latest");
         ContainerArgs.NetworkMode = "bridge";
         ContainerArgs.Restart = "unless-stopped";
@@ -21,7 +23,7 @@ public class PiHole : ContainerConfigBase
         };
         ContainerArgs.Mounts = new List<ContainerMountArgs> {
             new ContainerMountArgs {
-                Source = config.Require("serverBasePath") + "/pihole",
+                Source = piholePath,
                 Target = "/etc/pihole",
                 Type = "bind"
             }
@@ -49,5 +51,6 @@ public class PiHole : ContainerConfigBase
                 "CAP_NET_ADMIN",
             }
         };
+        EnsureHostPath(piholePath);
     }
 }
